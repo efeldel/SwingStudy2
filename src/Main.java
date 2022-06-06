@@ -27,9 +27,10 @@ public class Main {
         JLabel label = new JLabel(new ImageIcon(image.getScaledInstance(50, 50, Image.SCALE_FAST)));
         label.setBounds(x,y,50,50);
         panel.add(label);
-            panel.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(KeyEvent e) {
+        panel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (!e.isShiftDown()) {
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_LEFT:  // left
                             if (x >= 50) x -= 50;
@@ -48,11 +49,35 @@ public class Main {
                             else if (y == 750) y = 0;
                             break;
                     }
-                    label.setBounds(x,y,50,50);
+                } else {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_LEFT:  // left
+                            if (x >= 100) x -= 100;
+                            else if (x == 50) x = 750;
+                            else if (x == 0) x = 700;
+                            break;
+                        case KeyEvent.VK_UP:  // up
+                            if (y >= 100) y -= 100;
+                            else if (y == 50) y = 750;
+                            else if (y == 0) y = 700;
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            if (x <= 650) x += 100;
+                            else if (x == 750) x = 50;
+                            else if (x == 700) x = 0;
+                            break;
+                        case KeyEvent.VK_DOWN:  // down
+                            if (y <= 650) y += 100;
+                            else if (y == 750) y = 50;
+                            else if (y == 700) y = 0;
+                            break;
+                    }
                 }
+                label.setBounds(x,y,50,50);
+            }
 
-            });
-            frame.getContentPane().add(panel);
-            frame.setVisible(true);
+        });
+        frame.getContentPane().add(panel);
+        frame.setVisible(true);
     }
 }

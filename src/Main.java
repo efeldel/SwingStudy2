@@ -1,18 +1,17 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
     static int x = 0;
     static int y = 0;
     public static void main(String[] args) throws IOException {
+        FileWriter fw =  new FileWriter("output.txt");
 
-        JFrame frame = new JFrame("Управление стрелками");
+        JFrame frame = new JFrame("Записная книжка");
         frame.setLayout(null);
         frame.setBounds(500,200,816,839);
         frame.setBackground(Color.white);
@@ -23,30 +22,27 @@ public class Main {
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
         panel.setFocusable(true);
 
-        BufferedImage image = ImageIO.read(new File("smile.jpg"));
-        JLabel label = new JLabel(new ImageIcon(image.getScaledInstance(50, 50, Image.SCALE_FAST)));
+        JLabel label = new JLabel();
+        label.setFont(new Font("Calibri", Font.PLAIN, 20));
+        label.setHorizontalAlignment(JLabel.CENTER);
         label.setBounds(x,y,50,50);
         panel.add(label);
-            panel.addKeyListener(new KeyAdapter() {
+            panel.addKeyListener (new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_LEFT:  // left
-                            if (x >= 50) x -= 50;
-                            break;
-                        case KeyEvent.VK_UP:  // up
-                            if (y >= 50) y -= 50;
-                            break;
-                        case KeyEvent.VK_RIGHT:
-                            if (x <= 700) x += 50;
-                            break;
-                        case KeyEvent.VK_DOWN:  // down
-                            if (y <= 700) y += 50;
-                            break;
-                    }
-                    label.setBounds(x,y,50,50);
-                }
 
+                    label.setText(e.getKeyText(e.getKeyCode()));
+                    try {
+                        fw.append(e.getKeyText(e.getKeyCode()));
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try {
+                        fw.flush();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
             });
             frame.getContentPane().add(panel);
             frame.setVisible(true);

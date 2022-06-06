@@ -12,7 +12,7 @@ public class Main {
     static int y = 0;
     public static void main(String[] args) throws IOException {
 
-        JFrame frame = new JFrame("Управление стрелками");
+        JFrame frame = new JFrame("Хитрое управление стрелками");
         frame.setLayout(null);
         frame.setBounds(500,200,816,839);
         frame.setBackground(Color.white);
@@ -29,19 +29,23 @@ public class Main {
         panel.add(label);
             panel.addKeyListener(new KeyAdapter() {
                 @Override
-                public void keyReleased(KeyEvent e) {
+                public void keyPressed(KeyEvent e) {
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_LEFT:  // left
                             if (x >= 50) x -= 50;
+                            else if (x == 0) x = 750;
                             break;
                         case KeyEvent.VK_UP:  // up
                             if (y >= 50) y -= 50;
+                            else if (y == 0) y = 750;
                             break;
                         case KeyEvent.VK_RIGHT:
                             if (x <= 700) x += 50;
+                            else if (x == 750) x = 0;
                             break;
                         case KeyEvent.VK_DOWN:  // down
                             if (y <= 700) y += 50;
+                            else if (y == 750) y = 0;
                             break;
                     }
                     label.setBounds(x,y,50,50);

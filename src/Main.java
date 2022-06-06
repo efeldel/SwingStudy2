@@ -8,12 +8,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main {
+    static int x = 0;
+    static int y = 0;
     public static void main(String[] args) throws IOException {
-        int x = 0;
-        int y = 0;
+
         JFrame frame = new JFrame("Управление стрелками");
         frame.setLayout(null);
-        frame.setBounds(500,200,800,800);
+        frame.setBounds(500,200,816,839);
         frame.setBackground(Color.white);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 
@@ -26,29 +27,28 @@ public class Main {
         JLabel label = new JLabel(new ImageIcon(image.getScaledInstance(50, 50, Image.SCALE_FAST)));
         label.setBounds(x,y,50,50);
         panel.add(label);
-     //  while (true) {
             panel.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_LEFT:  // left
-                            label.setBounds(x - 50, y, 50, 50);
+                            if (x >= 50) x -= 50;
                             break;
                         case KeyEvent.VK_UP:  // up
-                            label.setBounds(x, y - 50, 50, 50);
+                            if (y >= 50) y -= 50;
                             break;
                         case KeyEvent.VK_RIGHT:
-                            label.setBounds(x + 50, y, 50, 50);
+                            if (x <= 700) x += 50;
                             break;
                         case KeyEvent.VK_DOWN:  // down
-                            label.setBounds(x, y + 50, 50, 50);
+                            if (y <= 700) y += 50;
                             break;
                     }
+                    label.setBounds(x,y,50,50);
                 }
 
             });
             frame.getContentPane().add(panel);
             frame.setVisible(true);
-   //     }
     }
 }

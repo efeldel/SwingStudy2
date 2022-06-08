@@ -11,17 +11,9 @@ public class Mouse {
         frame.setBackground(Color.white);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 
-
         JPanel panel = new JPanel(null);
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
         panel.setFocusable(true);
-
-        panel.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-        });
 
         panel.addMouseListener(new MouseAdapter() {
             @Override
@@ -33,6 +25,7 @@ public class Mouse {
                     label.setText("X: " + e.getX() + " Y: " + e.getY());
                 }
                 label.addMouseListener(new MouseAdapter() {
+                    boolean drag = false;
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if (e.getButton() == 2) {
@@ -40,8 +33,28 @@ public class Mouse {
                                 panel.repaint();
                         }
                     }
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        if (e.getButton() == 3) {
+                            label.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+                        }
+                    }
                 });
+                label.addMouseMotionListener(new MouseAdapter() {
+                    @Override
+                    public void mouseMoved(MouseEvent e) {
+                        label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
+                    @Override
+                    public void mouseDragged(MouseEvent e) {
+                        while (e.getButton() == 3) {
+                            label.setBounds(e.getX(),e.getY(),100,20);
+                            label.repaint();
+                            panel.repaint();
 
+                        }
+                    }
+                });
             }
         });
         frame.getContentPane().add(panel);

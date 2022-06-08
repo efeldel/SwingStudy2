@@ -22,6 +22,10 @@ public class Mouse {
                 panel.add(label);
                 label.setBounds(e.getX(), e.getY(), 100, 20);
                 label.setText("X: " + e.getX() + " Y: " + e.getY());
+
+                if (label.contains(e.getX(),e.getY())) {
+                    panel.remove(label);
+                }
             }
         });
         frame.getContentPane().add(panel);

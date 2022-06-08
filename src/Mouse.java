@@ -19,13 +19,21 @@ public class Mouse {
             @Override
             public void mouseClicked(MouseEvent e) {
                 JLabel label = new JLabel();
-                panel.add(label);
-                label.setBounds(e.getX(), e.getY(), 100, 20);
-                label.setText("X: " + e.getX() + " Y: " + e.getY());
-
-                if (label.contains(e.getX(),e.getY())) {
-                    panel.remove(label);
+                if (e.getButton() == 1) {
+                    panel.add(label);
+                    label.setBounds(e.getX(), e.getY(), 100, 20);
+                    label.setText("X: " + e.getX() + " Y: " + e.getY());
                 }
+                label.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getButton() == 2) {
+                                panel.remove(label);
+                                panel.repaint();
+                        }
+                    }
+                });
+
             }
         });
         frame.getContentPane().add(panel);

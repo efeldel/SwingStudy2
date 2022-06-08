@@ -11,9 +11,17 @@ public class Mouse {
         frame.setBackground(Color.white);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 
+
         JPanel panel = new JPanel(null);
         panel.setBounds(0,0,frame.getWidth(),frame.getHeight());
         panel.setFocusable(true);
+
+        panel.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+        });
 
         panel.addMouseListener(new MouseAdapter() {
             @Override
